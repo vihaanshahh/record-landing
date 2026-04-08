@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/interfaces-accordion";
 import { motion, type Variants, type Easing } from "framer-motion";
+import { useState } from "react";
 import {
   GitBranch,
   CheckCircle2,
@@ -25,6 +26,8 @@ import {
   GitMerge,
   Globe,
   ShieldCheck,
+  Copy,
+  Check,
 } from "lucide-react";
 
 const easeOut: Easing = [0.16, 1, 0.3, 1];
@@ -184,7 +187,32 @@ const faqs = [
 
 const frameworks = ["React", "Vue", "Next.js", "Nuxt", "Angular", "Svelte", "Astro", "Blazor", "Razor", "Phoenix", "Rails", "Django", "HTMX", "Plain HTML"];
 
+const QUICKSTART_YAML = `# .github/workflows/recordloop.yml
+name: RecordLoop
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  pull-requests: write
+  contents: write
+jobs:
+  recordloop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: vihaanshahh/recordloop@v1
+        with:
+          openai-api-key: \${{ secrets.OPENAI_API_KEY }}`;
+
 export default function Home() {
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy() {
+    navigator.clipboard.writeText(QUICKSTART_YAML).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
   return (
     <main className="w-full overflow-x-hidden bg-[#F9F9F9] text-[#000000]">
 
@@ -303,33 +331,49 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            className="mt-10 flex flex-col sm:flex-row items-center gap-4"
+            className="mt-10 w-full max-w-xl"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={3}
           >
-            <a href="https://github.com/vihaanshahh/recordloop#quick-start" target="_blank" rel="noopener noreferrer">
-              <ShimmerButton
-                shimmerColor="#F16021"
-                background="#E85002"
-                className="font-normal px-8 py-3.5 text-base"
+            {/* Inline quickstart snippet */}
+            <div className="relative rounded-xl border border-[#e8e8e8] bg-[#000000] overflow-hidden text-left shadow-[0_4px_32px_rgba(0,0,0,0.08)]">
+              {/* Terminal chrome */}
+              <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/10">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+                  <span className="ml-2 text-[11px] text-white/30 font-light">.github/workflows/recordloop.yml</span>
+                </div>
+                <button
+                  onClick={handleCopy}
+                  className="flex items-center gap-1.5 text-[11px] font-light transition-colors px-2 py-1 rounded-md"
+                  style={{ color: copied ? "#28c840" : "rgba(255,255,255,0.4)" }}
+                  aria-label="Copy YAML"
+                >
+                  {copied ? <Check size={12} /> : <Copy size={12} />}
+                  {copied ? "Copied!" : "Copy"}
+                </button>
+              </div>
+              <pre className="p-5 text-xs font-light leading-relaxed overflow-x-auto text-[#F9F9F9]/75 whitespace-pre select-all">
+                <code>{QUICKSTART_YAML}</code>
+              </pre>
+            </div>
+
+            {/* Secondary link */}
+            <div className="mt-4 flex justify-center">
+              <a
+                href="https://github.com/vihaanshahh/recordloop"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[#646464] hover:text-black text-sm font-light transition-colors"
               >
-                <span className="flex items-center gap-2">
-                  Install in 30 seconds
-                  <ArrowRight size={16} />
-                </span>
-              </ShimmerButton>
-            </a>
-            <a
-              href="https://github.com/vihaanshahh/recordloop"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-[#646464] hover:text-black text-base font-light transition-colors"
-            >
-              <GitBranch size={16} />
-              View on GitHub
-            </a>
+                <GitBranch size={14} />
+                View on GitHub
+              </a>
+            </div>
           </motion.div>
 
           <motion.div
