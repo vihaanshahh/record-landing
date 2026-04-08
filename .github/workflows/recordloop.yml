@@ -4,6 +4,8 @@ on:
     types: [opened, synchronize, reopened]
 permissions:
   pull-requests: write
+  issues: write
+  contents: read
 jobs:
   recordloop:
     runs-on: ubuntu-latest
