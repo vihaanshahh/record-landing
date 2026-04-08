@@ -16,13 +16,15 @@ import {
   CheckCircle2,
   ArrowRight,
   ChevronRight,
-  Terminal,
   Video,
   GitPullRequest,
   Zap,
-  Lock,
-  Package,
   DollarSign,
+  Brain,
+  Sparkles,
+  GitMerge,
+  Globe,
+  ShieldCheck,
 } from "lucide-react";
 
 const easeOut: Easing = [0.16, 1, 0.3, 1];
@@ -38,148 +40,149 @@ const fadeUp: Variants = {
 
 const features = [
   {
-    icon: Package,
-    title: "4-line SDK",
-    description:
-      "Drop the JS SDK into any React, Vue, Next.js, Angular, or Svelte app. No infrastructure to manage.",
-  },
-  {
-    icon: GitPullRequest,
-    title: "GitHub-native",
-    description:
-      "A GitHub Action replays sessions with Playwright, records video, and posts the link directly on your PR.",
-  },
-  {
-    icon: Video,
-    title: "Playwright replay",
-    description:
-      "Sessions are committed as tiny JSON files (~3KB). CI replays them headlessly and captures MP4 video.",
-  },
-  {
     icon: Zap,
-    title: "CI/CD native",
+    title: "12-line install",
     description:
-      "Works in local dev, GitHub Actions, and any CI pipeline. Zero server required — just S3 and git.",
+      "One workflow file, one secret. `uses: vihaanshahh/recordloop@v1` and you're done. No JS SDK, no bridge server, nothing to commit.",
+  },
+  {
+    icon: Brain,
+    title: "AI reads your diff",
+    description:
+      "An agent loop reads your PR's changed files with tools (read_file, read_diff, list_files) and generates realistic Playwright flows that exercise exactly what changed.",
+  },
+  {
+    icon: Globe,
+    title: "30+ frameworks",
+    description:
+      "Universal file filter covers React, Vue, Svelte, Angular, Astro, Nuxt, Blazor, Razor, Rails ERB, Phoenix, Django, HTMX, plain HTML — anything that ships markup.",
   },
   {
     icon: DollarSign,
-    title: "~$0.58 / 1k recordings",
+    title: "Bounded cost",
     description:
-      "No API server, no CDN, no database to run. Videos served from S3 pre-signed URLs. Pay almost nothing.",
+      "$0.001–$0.005 per PR on gpt-5.4. Agent is hard-capped at 10 iterations, 30 files, 50K input tokens — worst case ~$0.10 even on reasoning models.",
   },
   {
-    icon: Lock,
-    title: "Privacy by default",
+    icon: ShieldCheck,
+    title: "Open source (MIT)",
     description:
-      "Videos auto-expire in 7 days. No login required to view. Domain-restricted API keys. Your data stays yours.",
+      "Every line of the analyzer, the action, and the agent prompts is auditable on GitHub. MIT licensed. Fork it, self-host it, read it.",
+  },
+  {
+    icon: GitMerge,
+    title: "Zero infra",
+    description:
+      "Everything runs on the GitHub runner. No JS SDK in your bundle. No bridge server. No S3 bucket. No committed session files. Supports OpenAI and Azure OpenAI.",
   },
 ];
 
 const steps = [
   {
     number: "01",
-    title: "Add the SDK",
-    description: "Install the JS SDK into your app. The bridge server runs locally and saves sessions to .recordloop/sessions/ as JSON.",
-    code: `import { RecordLoopProvider, useRecordLoop }
-  from 'recordloop/react'
-
-function RecordButton() {
-  const { recording, start, stop } = useRecordLoop()
-  return (
-    <button onClick={recording ? stop : start}>
-      {recording ? 'Stop' : 'Record'}
-    </button>
-  )
-}`,
+    title: "Add the workflow file",
+    description: "Drop this 12-line YAML into .github/workflows/recordloop.yml. That's the entire install — no pip, no npm, no bridge server. The action handles its own dependencies on the runner.",
+    code: `# .github/workflows/recordloop.yml
+name: RecordLoop
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  pull-requests: write
+jobs:
+  recordloop:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: vihaanshahh/recordloop@v1
+        with:
+          openai-api-key: \${{ secrets.OPENAI_API_KEY }}`,
   },
   {
     number: "02",
-    title: "Commit sessions",
-    description: "Commit the JSON session file alongside your code. It's tiny — about 3KB per recording.",
-    code: `git add .recordloop/sessions/
-git commit -m "Add recording session"
-git push`,
+    title: "Add your OpenAI key as a secret",
+    description: "One secret. That's it. Use the gh CLI or Settings → Secrets and variables → Actions. Azure OpenAI works too if you need compliance-friendly routing.",
+    code: `# one-liner via the gh CLI
+gh secret set OPENAI_API_KEY
+
+# or, for a free smoke test with no key:
+# set env RECORDLOOP_DRY_RUN=1 on the action`,
   },
   {
     number: "03",
-    title: "Get video on your PR",
-    description: "The GitHub Action picks up the session, replays it with Playwright, uploads to S3, and posts the link on your PR.",
-    code: `# .github/workflows/recordloop.yml
-- uses: vihaanshahh/recordloop@main
-  with:
-    s3-bucket: \${{ secrets.RECORDLOOP_S3_BUCKET }}
-    aws-access-key-id: \${{ secrets.AWS_ACCESS_KEY_ID }}
-    aws-secret-access-key: \${{ secrets.AWS_SECRET_ACCESS_KEY }}`,
+    title: "Open a PR — get a video comment",
+    description: "On every PR, the agent reads your diff, generates Playwright flows targeted at the changed components, replays them against your preview URL, and posts the MP4s as a comment.",
+    code: `## RecordLoop · PR #42
+
+The agent read 4 changed files and generated 2 flows:
+
+  1. Submit checkout form with new coupon field
+  2. Tab through the redesigned settings modal
+
+[watch 01-checkout.mp4] · [watch 02-settings.mp4]
+
+Cost: $0.0024 · Model: gpt-5.4 · 7 iterations`,
   },
 ];
 
 const pricingTiers = [
   {
-    name: "Free",
+    name: "Free · MIT · BYO LLM key",
     price: "$0",
     period: "forever",
-    features: ["30 mins / month", "7-day retention", "100 recordings", "S3 bring your own"],
-    cta: "Get started",
-    highlighted: false,
-  },
-  {
-    name: "Pro",
-    price: "$20",
-    period: "/mo",
-    features: ["5 hrs / month", "30-day retention", "Unlimited recordings", "InstantDB dashboard"],
-    cta: "Start Pro",
+    features: [
+      "$0.001–$0.005 per PR (your OpenAI cost)",
+      "MIT licensed — fork, audit, self-host",
+      "No quotas, no rate limits, no seats",
+      "Worst-case ~$0.10 per PR via agent caps",
+      "OpenAI or Azure OpenAI",
+      "Free dry-run mode for CI smoke tests",
+    ],
+    cta: "Install in 30 seconds",
     highlighted: true,
-  },
-  {
-    name: "Team",
-    price: "$50",
-    period: "/mo",
-    features: ["15 hrs / month", "90-day retention", "Team management", "Priority support"],
-    cta: "Start Team",
-    highlighted: false,
   },
 ];
 
 const faqs = [
   {
-    value: "how",
-    title: "How is this different from Loom?",
+    value: "different",
+    title: "How is this different from Loom or Cypress recordings?",
     content:
-      "Loom is built for async communication across all teams — it's per-seat, expensive, and has no PR-native integration. RecordLoop targets developers specifically: it integrates with git, runs in CI, and the viewer link goes straight into your GitHub PR comment. No accounts, no plugins, just a link.",
+      "Loom is a human pressing record — someone has to remember, and the output is someone's voice describing a bug. Cypress recordings are assertions a human already wrote. RecordLoop is neither: an AI agent reads the diff of your pull request, decides what flows matter, generates Playwright code on the fly, and posts the videos as a PR comment. Nobody records anything. Nobody writes tests. The agent does both every time you push.",
+  },
+  {
+    value: "agent",
+    title: "What does the AI actually do?",
+    content:
+      "It's a tool-using agent loop. On each PR, it gets a system prompt and four tools: read_diff, list_files, read_file, and submit_flows. It starts by triaging the cheap diff summary, then drills into whichever changed components look load-bearing, then emits a list of Playwright flows targeted at exactly those changes. A separate Playwright worker on the runner replays the flows against your preview URL and uploads MP4s. The whole loop is hard-capped at 10 iterations and 50K input tokens.",
   },
   {
     value: "cost",
-    title: "Why is it so cheap?",
+    title: "How much does it cost?",
     content:
-      "There's no API server to run. The JS SDK posts sessions to a local bridge, you commit the JSON, and the GitHub Action does the replay + upload directly to S3 using pre-signed URLs. The only ongoing cost is S3 storage and egress — about $0.58 per 1,000 recordings.",
+      "$0.001 to $0.005 per PR on the default gpt-5.4 model — OpenAI passthrough, you pay your own bill, we don't mark anything up. Override `model` to `gpt-4o-mini` and it gets even cheaper. The agent loop is bounded by MAX_ITERATIONS=10, MAX_FILES_READ=30, and MAX_TOTAL_INPUT_TOKENS=50_000, so worst-case is around $0.10 per PR even on expensive reasoning models. There are no seats, no quotas, no minimums.",
   },
   {
     value: "frameworks",
     title: "Which frameworks are supported?",
     content:
-      "The JS SDK works with React, Vue, Next.js, Angular, Svelte, and plain vanilla JS. For Python, there's a Playwright-native SDK with a @recordloop decorator you can drop onto any test function.",
-  },
-  {
-    value: "sessions",
-    title: "What exactly is a session JSON?",
-    content:
-      "It's a ~3KB file capturing clicks, typing, navigation, and scroll events with stable selectors (data-testid, aria-label, id, etc). Playwright replays these events deterministically to produce an identical video of what you recorded.",
+      "Anything that ships HTML. The analyzer uses a universal file filter, so the list is long: React, Vue, Next.js, Angular, Svelte, Astro, Solid, Qwik, Nuxt, SvelteKit, Remix, Blazor, Razor / ASP.NET, Ruby on Rails (ERB), Phoenix LiveView, Django (Jinja), Twig, Handlebars, Liquid, Pug, Nunjucks, PHP, plain HTML, and HTMX. If your framework renders markup, RecordLoop can read it.",
   },
   {
     value: "privacy",
-    title: "Who can watch the videos?",
+    title: "Is my source code sent to OpenAI?",
     content:
-      "Anyone with the S3 pre-signed URL — no login required. URLs auto-expire after 7 days (or 30/90 days on paid plans). You can delete any recording via the API or dashboard.",
+      "Yes — only the files changed in the PR, capped at roughly 50K tokens of input context, are sent to whichever provider you configured. Nothing else in your repo is read. If you need compliance-friendly routing, set `provider: azure` and point at your own Azure OpenAI deployment — in that case your code never leaves your Azure tenant. The entire agent is MIT-licensed, so you can audit exactly which bytes get sent.",
   },
   {
-    value: "s3",
-    title: "Do I need my own S3 bucket?",
+    value: "injection",
+    title: "What about prompt injection from PR contributors?",
     content:
-      "Yes — you bring your own S3 bucket (or Cloudflare R2). This keeps costs near zero and means your videos never touch our servers. Run python -m recordloop setup-s3 and it configures everything for you.",
+      "Honest answer: this is a real risk for any LLM-in-CI product and we treat it seriously. Generated Playwright flows are constrained to same-origin navigation against your preview URL, the action runs under an allowlist of Playwright APIs (no shell, no network exfil), and the `if:` guard on the workflow disables the job entirely on PRs from forks so untrusted contributors can't access your OpenAI key. The whole analyzer is MIT-licensed, so you can audit the prompt, the tool surface, and the sandbox yourself.",
   },
 ];
 
-const frameworks = ["React", "Vue", "Next.js", "Angular", "Svelte", "Vanilla JS"];
+const frameworks = ["React", "Vue", "Next.js", "Nuxt", "Angular", "Svelte", "Astro", "Blazor", "Razor", "Phoenix", "Rails", "Django", "HTMX", "Plain HTML"];
 
 export default function Home() {
   return (
@@ -199,6 +202,8 @@ export default function Home() {
             <a href="#features" className="hover:text-black transition-colors">Features</a>
             <a href="#pricing" className="hover:text-black transition-colors">Pricing</a>
             <a href="#faq" className="hover:text-black transition-colors">FAQ</a>
+            <a href="/docs" className="hover:text-black transition-colors">Docs</a>
+            <a href="https://github.com/vihaanshahh/recordloop" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">GitHub</a>
           </div>
           <div className="flex items-center gap-3">
             <a
@@ -215,7 +220,7 @@ export default function Home() {
               background="#000000"
               className="text-sm font-normal px-4 py-2 h-9"
             >
-              Get started
+              Install in 30 seconds
             </ShimmerButton>
           </div>
         </div>
@@ -234,7 +239,7 @@ export default function Home() {
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
           <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
             <AnimatedGradientText className="mb-8 text-xs font-normal tracking-wide text-[#646464]">
-              Open source · works with any web app
+              Open source (MIT) · AI agent · 12-line install
               <ChevronRight size={12} className="ml-1 text-[#E85002]" />
             </AnimatedGradientText>
           </motion.div>
@@ -246,7 +251,7 @@ export default function Home() {
             animate="visible"
             custom={1}
           >
-            Code review,{" "}
+            Your PR diff →{" "}
             <span
               className="font-normal"
               style={{
@@ -255,7 +260,7 @@ export default function Home() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              but you can see it.
+              an AI agent → Playwright videos.
             </span>
           </motion.h1>
 
@@ -266,8 +271,9 @@ export default function Home() {
             animate="visible"
             custom={2}
           >
-            Drop a JS SDK into your frontend. Commit the session. A GitHub Action
-            replays it with Playwright, records video, and posts the link on your PR.
+            An AI agent reads your changed components, generates realistic
+            interaction flows, replays them with Playwright, and posts the videos
+            as a PR comment. 12-line install. No JS SDK. No S3. No infrastructure.
           </motion.p>
 
           {/* Framework badges */}
@@ -295,16 +301,18 @@ export default function Home() {
             animate="visible"
             custom={3}
           >
-            <ShimmerButton
-              shimmerColor="#F16021"
-              background="#E85002"
-              className="font-normal px-8 py-3.5 text-base"
-            >
-              <span className="flex items-center gap-2">
-                Get started free
-                <ArrowRight size={16} />
-              </span>
-            </ShimmerButton>
+            <a href="https://github.com/vihaanshahh/recordloop#quick-start" target="_blank" rel="noopener noreferrer">
+              <ShimmerButton
+                shimmerColor="#F16021"
+                background="#E85002"
+                className="font-normal px-8 py-3.5 text-base"
+              >
+                <span className="flex items-center gap-2">
+                  Install in 30 seconds
+                  <ArrowRight size={16} />
+                </span>
+              </ShimmerButton>
+            </a>
             <a
               href="https://github.com/vihaanshahh/recordloop"
               target="_blank"
@@ -323,7 +331,7 @@ export default function Home() {
             animate="visible"
             custom={4}
           >
-            {["~$0.58 / 1k recordings", "No login to view", "MP4 output only"].map((item) => (
+            {["$0.001–$0.005 per PR", "MIT licensed", "OpenAI or Azure"].map((item) => (
               <div key={item} className="flex items-center gap-1.5">
                 <CheckCircle2 size={13} className="text-[#E85002]" />
                 {item}
@@ -352,10 +360,10 @@ export default function Home() {
             {/* Flow diagram */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-[#f0f0f0]">
               {[
-                { step: "Local dev", label: "JS SDK captures clicks, typing, navigation", icon: Terminal, color: "#E85002" },
-                { step: "Git commit", label: ".recordloop/sessions/abc.json (~3KB)", icon: Package, color: "#F16021" },
-                { step: "GitHub Action", label: "Playwright replays → records MP4 → uploads to S3", icon: Video, color: "#C10801" },
-                { step: "PR comment", label: "\"Watch recording\" link posted automatically", icon: GitPullRequest, color: "#E85002" },
+                { step: "PR opened", label: "GitHub Action triggers on pull_request events", icon: GitPullRequest, color: "#E85002" },
+                { step: "Agent reads diff", label: "LLM uses read_file / read_diff / list_files tools", icon: Brain, color: "#F16021" },
+                { step: "Playwright replay", label: "Generated flows run against your preview URL", icon: Video, color: "#C10801" },
+                { step: "PR comment", label: "MP4 videos posted back to the PR automatically", icon: Sparkles, color: "#E85002" },
               ].map((col, i) => (
                 <div key={col.step} className="flex flex-col items-start p-6 gap-3">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${col.color}15` }}>
@@ -389,10 +397,10 @@ export default function Home() {
           >
             <p className="text-[#E85002] text-xs font-normal uppercase tracking-[0.2em] mb-4">How it works</p>
             <h2 className="text-4xl md:text-5xl font-light text-[#000000] leading-tight">
-              Three steps.<br />No servers.
+              Three steps.<br />Twelve lines.
             </h2>
             <p className="mt-4 text-[#646464] font-light max-w-sm">
-              Cost at 1,000 recordings/month: ~$0.58
+              One workflow file, one secret. The agent handles the rest on every PR — $0.001 to $0.005 per run.
             </p>
           </motion.div>
 
@@ -439,7 +447,7 @@ export default function Home() {
         >
           <p className="text-[#E85002] text-xs font-normal uppercase tracking-[0.2em] mb-4">Features</p>
           <h2 className="text-4xl md:text-5xl font-light text-[#000000] max-w-lg leading-tight">
-            Built for developers,<br />not teams.
+            An agent that understands<br />your PR diff.
           </h2>
         </motion.div>
 
@@ -485,14 +493,14 @@ export default function Home() {
           >
             <p className="text-[#E85002] text-xs font-normal uppercase tracking-[0.2em] mb-4">Pricing</p>
             <h2 className="text-4xl md:text-5xl font-light text-[#000000] leading-tight">
-              Per-minute, not per-seat.
+              OpenAI cost passthrough.<br />Nothing else.
             </h2>
             <p className="mt-4 text-[#646464] font-light max-w-md">
-              Loom charges $15/user/month. We charge for what you actually use.
+              RecordLoop is MIT licensed and free forever. You pay your own OpenAI (or Azure OpenAI) bill — roughly $0.001 to $0.005 per PR. No seats, no tiers, no markup.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto">
             {pricingTiers.map((tier, i) => (
               <motion.div
                 key={tier.name}
@@ -551,7 +559,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Enterprise? Custom retention, SSO, SLA — <a href="mailto:hi@recordloop.io" className="text-[#E85002] hover:underline">get in touch</a>.
+            Need compliance-friendly routing? Point the action at your own Azure OpenAI deployment — your code never leaves your tenant. Read the <a href="/docs" className="text-[#E85002] hover:underline">docs</a> or check the <a href="https://github.com/vihaanshahh/recordloop/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="text-[#E85002] hover:underline">MIT license</a>.
           </motion.p>
         </div>
       </section>
@@ -601,22 +609,24 @@ export default function Home() {
           </div>
           <div className="relative z-10">
             <p className="text-[#E85002] text-xs font-normal uppercase tracking-[0.2em] mb-6">
-              Record once. Attach anywhere. Review faster.
+              Twelve lines. One secret. Every PR.
             </p>
             <h2 className="text-4xl md:text-5xl font-light text-[#000000] mb-4">
-              Stop describing bugs.<br />Show them.
+              Stop writing UI tests.<br />Let the agent do it.
             </h2>
             <p className="text-[#646464] font-light text-lg mb-8 max-w-sm mx-auto">
-              python -m recordloop init and you're done.
+              Add the workflow file. Set OPENAI_API_KEY. Open a PR. Done.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <ShimmerButton
-                shimmerColor="#F16021"
-                background="#E85002"
-                className="font-normal px-8 py-3.5 text-base"
-              >
-                Get started free
-              </ShimmerButton>
+              <a href="https://github.com/vihaanshahh/recordloop#quick-start" target="_blank" rel="noopener noreferrer">
+                <ShimmerButton
+                  shimmerColor="#F16021"
+                  background="#E85002"
+                  className="font-normal px-8 py-3.5 text-base"
+                >
+                  Install in 30 seconds
+                </ShimmerButton>
+              </a>
               <a
                 href="https://github.com/vihaanshahh/recordloop"
                 target="_blank"
@@ -642,11 +652,11 @@ export default function Home() {
           </div>
           <p>© {new Date().getFullYear()} RecordLoop. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="https://github.com/vihaanshahh/recordloop" className="hover:text-black transition-colors flex items-center gap-1">
+            <a href="https://github.com/vihaanshahh/recordloop" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors flex items-center gap-1">
               <GitBranch size={13} /> GitHub
             </a>
-            <a href="#" className="hover:text-black transition-colors">Privacy</a>
-            <a href="#" className="hover:text-black transition-colors">Terms</a>
+            <a href="/docs" className="hover:text-black transition-colors">Docs</a>
+            <a href="https://github.com/vihaanshahh/recordloop/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">MIT License</a>
           </div>
         </div>
       </footer>

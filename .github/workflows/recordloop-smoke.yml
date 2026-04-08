@@ -1,0 +1,11 @@
+name: RecordLoop smoke
+on: [push]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: vihaanshahh/recordloop@v1
+        env:
+          RECORDLOOP_DRY_RUN: "1"
+        with:
+          openai-api-key: "not-needed-for-dry-run"

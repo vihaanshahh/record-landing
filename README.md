@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# record-landing
 
-## Getting Started
+The marketing site for [RecordLoop](https://github.com/vihaanshahh/recordloop) — AI-driven UI test recordings on every PR.
 
-First, run the development server:
+## What is RecordLoop?
+
+RecordLoop is an open-source GitHub Action that turns every pull request into an AI-generated UI test recording. An LLM agent reads your PR diff, writes realistic Playwright flows for the changed components, replays them headlessly, and posts the videos back as a PR comment. See the [main repo](https://github.com/vihaanshahh/recordloop) for details.
+
+## Stack
+
+- Next.js 16 (App Router)
+- React 19
+- Tailwind CSS 4
+- Framer Motion
+- Magic UI components
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `app/page.tsx` — the main landing page
+- `app/docs/page.tsx` — the docs page
+- `app/layout.tsx` — root layout and site metadata
+- `components/ui/` — Magic UI components used across the site
 
-## Learn More
+## Deploying
 
-To learn more about Next.js, take a look at the following resources:
+Deployed on Vercel. Pushes to `main` trigger an automatic production deployment; PRs get preview deployments.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Dogfooding
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This repo uses RecordLoop on its own pull requests. See `.github/workflows/recordloop.yml` — every PR opened against `record-landing` gets an AI-generated test flow comment from RecordLoop itself. If the landing page breaks, RecordLoop tells us before we merge.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT — same as [the main RecordLoop repo](https://github.com/vihaanshahh/recordloop/blob/main/LICENSE).

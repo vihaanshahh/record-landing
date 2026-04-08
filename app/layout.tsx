@@ -9,8 +9,47 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Record Loop — Capture Every Take",
-  description: "Record Loop lets musicians capture, layer, and loop recordings effortlessly. Never lose a great take again.",
+  metadataBase: new URL("https://recordloop.dev"),
+  title: "RecordLoop — AI-generated UI test recordings on every PR",
+  description:
+    "An AI agent reads your PR diff, generates realistic Playwright flows, replays them in a headless browser, and posts the videos as a PR comment. 12-line install. No JS SDK. MIT licensed.",
+  keywords: [
+    "github action",
+    "playwright",
+    "ai testing",
+    "pull request",
+    "ci/cd",
+    "test automation",
+    "openai",
+    "next.js",
+    "react",
+    "vue",
+  ],
+  authors: [{ name: "Vihaan Shah", url: "https://github.com/vihaanshahh" }],
+  creator: "Vihaan Shah",
+  openGraph: {
+    title: "RecordLoop — AI-generated UI test recordings on every PR",
+    description:
+      "An AI agent reads your PR diff, generates realistic Playwright flows, replays them in a headless browser, and posts the videos as a PR comment. 12-line install. No JS SDK. MIT licensed.",
+    url: "https://recordloop.dev",
+    siteName: "RecordLoop",
+    type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "RecordLoop — AI test recordings on every PR",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RecordLoop — AI-generated UI test recordings on every PR",
+    description:
+      "An AI agent reads your PR diff, generates realistic Playwright flows, replays them in a headless browser, and posts the videos as a PR comment. 12-line install. No JS SDK. MIT licensed.",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({
