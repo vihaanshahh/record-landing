@@ -215,13 +215,21 @@ export default function Home() {
               <GitBranch size={16} />
               <span className="hidden sm:inline">GitHub</span>
             </a>
-            <ShimmerButton
-              shimmerColor="#E85002"
-              background="#000000"
-              className="text-sm font-normal px-4 py-2 h-9"
+            <a
+              href="https://github.com/vihaanshahh/recordloop#quick-start"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="nav-install-cta"
+              aria-label="Install RecordLoop in 30 seconds"
             >
-              Install in 30 seconds
-            </ShimmerButton>
+              <ShimmerButton
+                shimmerColor="#E85002"
+                background="#000000"
+                className="text-sm font-normal px-4 py-2 h-9"
+              >
+                Install in 30 seconds
+              </ShimmerButton>
+            </a>
           </div>
         </div>
       </nav>
