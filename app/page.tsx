@@ -230,6 +230,17 @@ export default function Home() {
               <div className="w-2.5 h-2.5 rounded-full bg-white" />
             </div>
             <span className="font-semibold text-base tracking-tight">RecordLoop</span>
+            <a
+              href="https://github.com/vihaanshahh/recordloop/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="nav-version-badge"
+              aria-label="RecordLoop version v0.1.7"
+              className="ml-2 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-[#e8e8e8] bg-white text-[10px] font-light text-[#646464] hover:text-black hover:border-[#E85002] transition-colors"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#28c840]" />
+              v0.1.7 live
+            </a>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm text-[#646464]">
             <a href="#how" className="hover:text-black transition-colors">How it works</a>
