@@ -183,6 +183,12 @@ const faqs = [
     content:
       "Honest answer: this is a real risk for any LLM-in-CI product and we treat it seriously. Generated Playwright flows are constrained to same-origin navigation against your preview URL, the action runs under an allowlist of Playwright APIs (no shell, no network exfil), and the `if:` guard on the workflow disables the job entirely on PRs from forks so untrusted contributors can't access your OpenAI key. The whole analyzer is MIT-licensed, so you can audit the prompt, the tool surface, and the sandbox yourself.",
   },
+  {
+    value: "self-host",
+    title: "Can I self-host it on my own runners?",
+    content:
+      "Yes, fully. RecordLoop is a composite GitHub Action — it runs wherever your workflow runs. Point it at a self-hosted runner via `runs-on: [self-hosted, linux]` and the action installs its own Playwright + ffmpeg dependencies on first run, then re-uses the cached layer on subsequent jobs. You keep your OpenAI key in your own secret store, you control the network egress, and the recordings stay inside your GitHub org as release assets. There is no RecordLoop server, no telemetry, no phone-home — the entire pipeline is the action itself.",
+  },
 ];
 
 const frameworks = ["React", "Vue", "Next.js", "Nuxt", "Angular", "Svelte", "Astro", "Blazor", "Razor", "Phoenix", "Rails", "Django", "HTMX", "Plain HTML"];
