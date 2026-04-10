@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
-      - uses: vihaanshahh/recordloop@v1
+      - uses: vihaanshahh/recordloop@feat/login-context
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          # preview-url: https://record-landing-${{ github.event.pull_request.number }}.vercel.app
+          storage-state: ${{ secrets.RECORDLOOP_STORAGE_STATE }}
