@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -9,7 +9,6 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,8 +22,7 @@ export default function LoginPage() {
     });
 
     if (res.ok) {
-      const from = searchParams.get("from") || "/dashboard";
-      router.push(from);
+      router.push("/dashboard");
     } else {
       setError("Invalid email or password");
     }
