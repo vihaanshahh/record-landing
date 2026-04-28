@@ -44,9 +44,9 @@ const fadeUp: Variants = {
 const features = [
   {
     icon: Zap,
-    title: "12-line install",
+    title: "2-minute install",
     description:
-      "One workflow file, one secret. `uses: vihaanshahh/recordloop@v1` and you're done. No JS SDK, no bridge server, nothing to commit.",
+      "One workflow file, one secret. `uses: vihaanshahh/recordloop@v1` and you're recording. No JS SDK, no bridge server, nothing to commit.",
   },
   {
     icon: Brain,
