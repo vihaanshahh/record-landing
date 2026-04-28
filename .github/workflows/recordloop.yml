@@ -14,3 +14,16 @@ jobs:
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # preview-url: https://record-landing-${{ github.event.pull_request.number }}.vercel.app
+
+  # Test job: forces the no-ffmpeg path so you can verify the <video> tag
+  # (and its text-link fallback) render correctly in a real PR comment.
+  # Remove once you've confirmed the inline player works on GitHub.
+  recordloop-no-ffmpeg:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: vihaanshahh/recordloop@v1
+        env:
+          RECORDLOOP_NO_FFMPEG: "1"
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
