@@ -458,7 +458,7 @@ export default function Home() {
               Three steps.<br />Twelve lines.
             </h2>
             <p className="mt-4 text-[#646464] font-light max-w-sm">
-              One workflow file, one secret. The agent handles the rest on every PR — $0.001 to $0.005 per run.
+              One workflow file, one secret. RecordLoop handles the rest on every PR — $0.001 to $0.005 per run.
             </p>
           </motion.div>
 
