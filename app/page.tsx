@@ -699,6 +699,30 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* ── SOCIAL PROOF STRIP ── */}
+      <section className="border-t border-[#e8e8e8] bg-[#fafafa] px-6 md:px-16 py-10">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-xs font-normal uppercase tracking-[0.2em] text-[#A7A7A7] mb-6">Works with</p>
+          <div className="flex flex-wrap items-center justify-center gap-8 text-sm font-light text-[#646464]">
+            <span>Next.js</span>
+            <span>·</span>
+            <span>Vite</span>
+            <span>·</span>
+            <span>Remix</span>
+            <span>·</span>
+            <span>Astro</span>
+            <span>·</span>
+            <span>Vue</span>
+            <span>·</span>
+            <span>Svelte</span>
+            <span>·</span>
+            <span>Angular</span>
+            <span>·</span>
+            <span>Storybook</span>
+          </div>
+        </div>
+      </section>
+
       {/* ── FOOTER ── */}
       <footer className="border-t border-[#e8e8e8] px-6 md:px-16 py-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#A7A7A7] font-light">
