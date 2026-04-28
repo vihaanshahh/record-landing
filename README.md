@@ -41,3 +41,4 @@ This repo uses RecordLoop on its own pull requests. See `.github/workflows/recor
 ## License
 
 MIT — same as [the main RecordLoop repo](https://github.com/vihaanshahh/recordloop/blob/main/LICENSE).
+
