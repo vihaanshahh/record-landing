@@ -44,9 +44,9 @@ const fadeUp: Variants = {
 const features = [
   {
     icon: Zap,
-    title: "12-line install",
+    title: "2-minute install",
     description:
-      "One workflow file, one secret. `uses: vihaanshahh/recordloop@v1` and you're done. No JS SDK, no bridge server, nothing to commit.",
+      "One workflow file, one secret. `uses: vihaanshahh/recordloop@v1` and you're recording. No JS SDK, no bridge server, nothing to commit.",
   },
   {
     icon: Brain,
@@ -458,7 +458,7 @@ export default function Home() {
               Three steps.<br />Twelve lines.
             </h2>
             <p className="mt-4 text-[#646464] font-light max-w-sm">
-              One workflow file, one secret. The agent handles the rest on every PR — $0.001 to $0.005 per run.
+              One workflow file, one secret. RecordLoop handles the rest on every PR — $0.001 to $0.005 per run.
             </p>
           </motion.div>
 
@@ -697,6 +697,30 @@ export default function Home() {
             </div>
           </div>
         </motion.div>
+      </section>
+
+      {/* ── SOCIAL PROOF STRIP ── */}
+      <section className="border-t border-[#e8e8e8] bg-[#fafafa] px-6 md:px-16 py-10">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-xs font-normal uppercase tracking-[0.2em] text-[#A7A7A7] mb-6">Works with</p>
+          <div className="flex flex-wrap items-center justify-center gap-8 text-sm font-light text-[#646464]">
+            <span>Next.js</span>
+            <span>·</span>
+            <span>Vite</span>
+            <span>·</span>
+            <span>Remix</span>
+            <span>·</span>
+            <span>Astro</span>
+            <span>·</span>
+            <span>Vue</span>
+            <span>·</span>
+            <span>Svelte</span>
+            <span>·</span>
+            <span>Angular</span>
+            <span>·</span>
+            <span>Storybook</span>
+          </div>
+        </div>
       </section>
 
       {/* ── FOOTER ── */}
